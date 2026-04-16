@@ -566,7 +566,7 @@
     </nav>
 
     <!-- Tab: このアプリについて -->
-    <div class="tab-panel active" id="tab-about" role="tabpanel">
+    <div class="tab-panel active" id="about" role="tabpanel">
       <ul class="feature-list">
         <li class="feature-item">
           <div class="feature-icon">
@@ -617,7 +617,7 @@
     </div>
 
     <!-- Tab: FAQ -->
-    <div class="tab-panel" id="tab-faq" role="tabpanel">
+    <div class="tab-panel" id="faq" role="tabpanel">
       <div class="faq-list">
         <div class="faq-item">
           <button class="faq-question">
@@ -678,7 +678,7 @@
     </div>
 
     <!-- Tab: プライバシーポリシー -->
-    <div class="tab-panel" id="tab-privacy" role="tabpanel">
+    <div class="tab-panel" id="privacy" role="tabpanel">
       <!-- ====================================================
            プライバシーポリシーのテキストを以下に入れてください。
            privacy-placeholder の中身を書き換えるだけでOKです。
@@ -690,7 +690,7 @@
     </div>
 
     <!-- Tab: 開発日記 -->
-    <div class="tab-panel" id="tab-diary" role="tabpanel">
+    <div class="tab-panel" id="diary" role="tabpanel">
       <div class="twitter-embed-wrapper">
         <a class="twitter-timeline"
            data-theme="dark"
@@ -705,7 +705,7 @@
   </section>
 
   <!-- ===== Contact Section ===== -->
-  <section class="contact-section fade-in">
+  <section class="contact-section fade-in" id="contact">
     <h2 class="contact-title">お問い合わせ</h2>
     <p class="contact-desc">ご意見・ご要望・不具合報告はこちらからどうぞ。</p>
     <div class="contact-form-wrapper">
@@ -780,9 +780,35 @@
 
           this.classList.add('active');
           this.setAttribute('aria-selected', 'true');
-          document.getElementById('tab-' + target).classList.add('active');
+          document.getElementById(target).classList.add('active');
         });
       });
+
+      // Handle URL hash on page load (e.g. #faq, #privacy, #contact)
+      function activateFromHash() {
+        var hash = window.location.hash.replace('#', '');
+        if (!hash) return;
+        // If hash matches a tab, activate it
+        var tabMap = { faq: 'faq', privacy: 'privacy', about: 'about', diary: 'diary' };
+        if (tabMap[hash]) {
+          tabBtns.forEach(function(b) {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          tabPanels.forEach(function(p) { p.classList.remove('active'); });
+          var matchBtn = document.querySelector('.tab-btn[data-tab="' + hash + '"]');
+          var matchPanel = document.getElementById(hash);
+          if (matchBtn) { matchBtn.classList.add('active'); matchBtn.setAttribute('aria-selected', 'true'); }
+          if (matchPanel) { matchPanel.classList.add('active'); }
+        }
+        // Scroll to the element
+        var el = document.getElementById(hash);
+        if (el) {
+          setTimeout(function() { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
+        }
+      }
+      activateFromHash();
+      window.addEventListener('hashchange', activateFromHash);
 
       // FAQ accordion
       document.querySelectorAll('.faq-question').forEach(function(q) {

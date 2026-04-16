@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgeSage（アゲサゲ）— AIカラオケ練習アプリ | Progress AI</title>
+  <meta name="description" content="AIボーカル除去でカラオケ音源を自分で作れる、本格カラオケ練習アプリ「AgeSage（アゲサゲ）」">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========== Reset & Base ========== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-primary: #0A0A0A;
+      --bg-secondary: #121212;
+      --bg-card: #1A1A1A;
+      --bg-card-alt: #151515;
+      --text-primary: #F0F0F0;
+      --text-secondary: #AAAAAA;
+      --text-muted: #777777;
+      --gold: #D4A017;
+      --gold-light: #F5C842;
+      --gold-dim: rgba(212, 160, 23, 0.15);
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --font-jp: 'Noto Sans JP', sans-serif;
+      --font-en: 'Inter', 'Noto Sans JP', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-jp);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* ========== Animations ========== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes glow {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .fade-in-delay-1 { animation-delay: 0.15s; }
+    .fade-in-delay-2 { animation-delay: 0.3s; }
+    .fade-in-delay-3 { animation-delay: 0.45s; }
+    .fade-in-delay-4 { animation-delay: 0.6s; }
+
+    /* ========== Header ========== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 14px 32px;
+      background: rgba(10, 10, 10, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(212, 160, 23, 0.1);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-logo {
+      height: 32px;
+      width: auto;
+      opacity: 0.9;
+      transition: opacity 0.2s;
+    }
+
+    .header-logo:hover { opacity: 1; }
+
+    .header-app-logo {
+      height: 36px;
+      width: 36px;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+
+    /* ========== Hero ========== */
+    .hero {
+      position: relative;
+      padding: 140px 24px 80px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse at 30% 40%, rgba(212, 160, 23, 0.07) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(245, 200, 66, 0.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .particles {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .hero-app-logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 22px;
+      object-fit: contain;
+      margin-bottom: 24px;
+      animation: float 4s ease-in-out infinite;
+      box-shadow: 0 12px 40px rgba(212, 160, 23, 0.15);
+    }
+
+    .hero-app-name {
+      font-family: var(--font-en);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+
+    .hero-app-name-jp {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .hero-catchcopy {
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 36px;
+      line-height: 1.6;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--gold-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gold-line {
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto 32px;
+    }
+
+    /* Google Play Button */
+    .store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 28px;
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .store-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(212, 160, 23, 0.3);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .store-btn-icon {
+      width: 28px;
+      height: 28px;
+    }
+
+    .store-btn-text {
+      text-align: left;
+    }
+
+    .store-btn-label {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.5px;
+    }
+
+    .store-btn-name {
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* ========== Tab Navigation ========== */
+    .tab-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    .tab-nav {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 48px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-nav::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      flex-shrink: 0;
+      padding: 14px 20px;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-family: var(--font-jp);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    .tab-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .tab-btn:hover { color: var(--text-primary); }
+
+    .tab-btn.active {
+      color: var(--gold);
+    }
+
+    .tab-btn.active::after {
+      transform: scaleX(1);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    /* ========== About Tab ========== */
+    .feature-list {
+      list-style: none;
+      display: grid;
+      gap: 20px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 24px;
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      transition: border-color 0.2s;
+    }
+
+    .feature-item:hover {
+      border-color: rgba(212, 160, 23, 0.2);
+    }
+
+    .feature-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      background: var(--gold-dim);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .feature-text h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .feature-text p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ========== FAQ Tab ========== */
+    .faq-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 20px 24px;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-family: var(--font-jp);
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: color 0.2s;
+    }
+
+    .faq-question:hover { color: var(--gold); }
+
+    .faq-question::before {
+      content: 'Q.';
+      color: var(--gold);
+      font-family: var(--font-en);
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .faq-question .faq-arrow {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: transform 0.3s;
+    }
+
+    .faq-item.open .faq-arrow {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-answer-inner {
+      padding: 0 24px 20px 56px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+    }
+
+    /* ========== Privacy Tab ========== */
+    .privacy-placeholder {
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      padding: 40px 32px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 2;
+    }
+
+    /* ========== Dev Diary Tab ========== */
+    .twitter-embed-wrapper {
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      padding: 24px;
+      min-height: 400px;
+    }
+
+    /* ========== Contact Section ========== */
+    .contact-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    .contact-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .contact-desc {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 40px;
+    }
+
+    .contact-form-wrapper {
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      padding: 24px;
+      text-align: center;
+    }
+
+    .contact-form-wrapper iframe {
+      width: 100%;
+      min-height: 600px;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .contact-form-placeholder {
+      color: var(--text-muted);
+      padding: 60px 20px;
+      font-size: 0.9rem;
+    }
+
+    /* ========== Footer ========== */
+    .footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 1px;
+    }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 600px) {
+      .header { padding: 12px 16px; }
+      .header-logo { height: 26px; }
+      .header-app-logo { height: 30px; width: 30px; }
+      .hero { padding: 110px 16px 60px; }
+      .hero-app-logo { width: 80px; height: 80px; }
+      .tab-section { padding: 0 16px 60px; }
+      .tab-btn { padding: 12px 14px; font-size: 0.82rem; }
+      .feature-item { padding: 18px 16px; }
+      .feature-icon { width: 36px; height: 36px; font-size: 1.1rem; }
+      .contact-section { padding: 0 16px 60px; }
+      .store-btn { padding: 12px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="/">
+        <img src="/images/progressai-logo.svg" alt="Progress AI" class="header-logo">
+      </a>
+      <img src="/images/agesage-gold.png" alt="AgeSage" class="header-app-logo">
+    </div>
+  </header>
+
+  <!-- ===== Hero Section ===== -->
+  <section class="hero">
+    <div class="particles" id="particles"></div>
+    <div class="hero-content">
+      <img src="/images/agesage-gold.png" alt="AgeSage ロゴ" class="hero-app-logo fade-in">
+      <h1 class="hero-app-name fade-in fade-in-delay-1">AgeSage</h1>
+      <p class="hero-app-name-jp fade-in fade-in-delay-1">アゲサゲ</p>
+      <div class="gold-line fade-in fade-in-delay-2"></div>
+      <p class="hero-catchcopy fade-in fade-in-delay-2">あの曲を、自分のキーで歌える日が来る。</p>
+
+      <!-- Google Play ダウンロードボタン（リリース後にhrefを差し替え） -->
+      <a href="#" class="store-btn fade-in fade-in-delay-3">
+        <svg class="store-btn-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-1.4l2.651 1.535a1 1 0 0 1 0 1.73l-2.651 1.535-2.537-2.535 2.537-2.265zM5.864 3.458L16.8 9.79l-2.302 2.302-8.634-8.634z"/>
+        </svg>
+        <div class="store-btn-text">
+          <div class="store-btn-label">GET IT ON</div>
+          <div class="store-btn-name">Google Play</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== Tab Section ===== -->
+  <section class="tab-section">
+    <nav class="tab-nav fade-in" role="tablist">
+      <button class="tab-btn active" data-tab="about" role="tab" aria-selected="true">このアプリについて</button>
+      <button class="tab-btn" data-tab="faq" role="tab" aria-selected="false">FAQ</button>
+      <button class="tab-btn" data-tab="privacy" role="tab" aria-selected="false">プライバシーポリシー</button>
+      <button class="tab-btn" data-tab="diary" role="tab" aria-selected="false">開発日記</button>
+    </nav>
+
+    <!-- Tab: このアプリについて -->
+    <div class="tab-panel active" id="tab-about" role="tabpanel">
+      <ul class="feature-list">
+        <li class="feature-item">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <div class="feature-text">
+            <h3>AIボーカル除去</h3>
+            <p>お気に入りの曲からボーカルをAIで自動除去。自分だけのカラオケ音源を作成できます。</p>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+          </div>
+          <div class="feature-text">
+            <h3>キー変更</h3>
+            <p>半音単位でキーを調整。自分の声域に合わせて、無理なく歌える設定を見つけられます。</p>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="feature-text">
+            <h3>マイキー登録</h3>
+            <p>曲ごとに自分のベストなキーを保存。次に歌うときもワンタッチで最適なキーに。</p>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/><line x1="12" y1="3" x2="12" y2="21" opacity="0.4"/></svg>
+          </div>
+          <div class="feature-text">
+            <h3>A-Bリピート</h3>
+            <p>苦手なフレーズだけを区間指定して集中練習。効率的にスキルアップできます。</p>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          </div>
+          <div class="feature-text">
+            <h3>外部音源対応</h3>
+            <p>YouTube等の外部音源を使った練習にも対応。幅広い楽曲で練習できます。</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab: FAQ -->
+    <div class="tab-panel" id="tab-faq" role="tabpanel">
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>無料で使えますか？</span>
+            <span class="faq-arrow">&#9660;</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              基本機能は無料でご利用いただけます。一部の高度な機能（AIボーカル除去など）はProプランへのアップグレードでご利用可能になります。
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>どんな音楽ファイルに対応していますか？</span>
+            <span class="faq-arrow">&#9660;</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              MP3、WAV、M4A、FLAC など主要な音楽ファイル形式に対応しています。端末に保存されている楽曲をそのまま読み込めます。
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>ボーカル除去の精度はどのくらいですか？</span>
+            <span class="faq-arrow">&#9660;</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              最新のAI技術を活用しており、多くの楽曲で高品質なボーカル除去が可能です。楽曲のミックスや録音条件により結果は異なる場合があります。
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>iPhoneでは使えますか？</span>
+            <span class="faq-arrow">&#9660;</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              現在はAndroid版のみの提供です。iOS版については今後の対応を検討しています。最新情報はXアカウント（@agesage_app）でお知らせします。
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>データはどこに保存されますか？</span>
+            <span class="faq-arrow">&#9660;</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              楽曲データや設定はすべてお使いの端末内に保存されます。外部サーバーへのアップロードは行いません。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: プライバシーポリシー -->
+    <div class="tab-panel" id="tab-privacy" role="tabpanel">
+      <!-- ====================================================
+           プライバシーポリシーのテキストを以下に入れてください。
+           privacy-placeholder の中身を書き換えるだけでOKです。
+           ==================================================== -->
+      <div class="privacy-placeholder">
+        <p>※ プライバシーポリシーのテキストをここに入れてください。</p>
+        <p style="margin-top: 12px; font-size: 0.8rem;">このセクションの内容を差し替えるには、このHTML内の<br>「プライバシーポリシーのテキストを以下に入れてください」<br>というコメントの直下を編集してください。</p>
+      </div>
+    </div>
+
+    <!-- Tab: 開発日記 -->
+    <div class="tab-panel" id="tab-diary" role="tabpanel">
+      <div class="twitter-embed-wrapper">
+        <a class="twitter-timeline"
+           data-theme="dark"
+           data-chrome="noheader nofooter noborders transparent"
+           data-height="600"
+           href="https://x.com/agesage_app">
+          @agesage_app のポスト
+        </a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact Section ===== -->
+  <section class="contact-section fade-in">
+    <h2 class="contact-title">お問い合わせ</h2>
+    <p class="contact-desc">ご意見・ご要望・不具合報告はこちらからどうぞ。</p>
+    <div class="contact-form-wrapper">
+      <!-- ====================================================
+           Googleフォームの埋め込み
+           下の iframe の src="YOUR_GOOGLE_FORM_URL" を
+           実際のGoogleフォームURLに差し替えてください。
+           例: src="https://docs.google.com/forms/d/e/XXXX/viewform?embedded=true"
+           ==================================================== -->
+      <div class="contact-form-placeholder">
+        <p>Googleフォームを準備中です。</p>
+        <p style="margin-top: 8px; font-size: 0.8rem; color: #555;">
+          フォームが完成したら、このHTML内の「YOUR_GOOGLE_FORM_URL」を差し替えてください。
+        </p>
+      </div>
+      <!-- フォームURL差し替え後、上の placeholder div を削除し、下の iframe のコメントを外してください -->
+      <!--
+      <iframe src="YOUR_GOOGLE_FORM_URL"
+              width="100%"
+              height="600"
+              frameborder="0"
+              marginheight="0"
+              marginwidth="0">
+        読み込んでいます…
+      </iframe>
+      -->
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/">Progress AI トップへ</a>
+      <a href="https://x.com/agesage_app" target="_blank" rel="noopener noreferrer">
+        <!-- X icon -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 4px;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        @agesage_app
+      </a>
+    </div>
+    <p class="footer-copy">&copy; 2025 Progress AI</p>
+  </footer>
+
+  <!-- ===== Scripts ===== -->
+  <script>
+    (function() {
+      // Particles
+      var container = document.getElementById('particles');
+      for (var i = 0; i < 20; i++) {
+        var dot = document.createElement('div');
+        dot.classList.add('particle');
+        dot.style.left = Math.random() * 100 + '%';
+        dot.style.top = Math.random() * 100 + '%';
+        dot.style.animationDelay = (Math.random() * 5) + 's';
+        dot.style.animationDuration = (2 + Math.random() * 4) + 's';
+        dot.style.width = dot.style.height = (2 + Math.random() * 3) + 'px';
+        container.appendChild(dot);
+      }
+
+      // Tab switching
+      var tabBtns = document.querySelectorAll('.tab-btn');
+      var tabPanels = document.querySelectorAll('.tab-panel');
+
+      tabBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var target = this.getAttribute('data-tab');
+
+          tabBtns.forEach(function(b) {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          tabPanels.forEach(function(p) { p.classList.remove('active'); });
+
+          this.classList.add('active');
+          this.setAttribute('aria-selected', 'true');
+          document.getElementById('tab-' + target).classList.add('active');
+        });
+      });
+
+      // FAQ accordion
+      document.querySelectorAll('.faq-question').forEach(function(q) {
+        q.addEventListener('click', function() {
+          var item = this.parentElement;
+          var wasOpen = item.classList.contains('open');
+
+          // Close all
+          document.querySelectorAll('.faq-item').forEach(function(fi) {
+            fi.classList.remove('open');
+          });
+
+          // Toggle clicked
+          if (!wasOpen) {
+            item.classList.add('open');
+          }
+        });
+      });
+
+      // Intersection Observer for fade-in
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in').forEach(function(el) {
+        el.style.animationPlayState = 'paused';
+        observer.observe(el);
+      });
+    })();
+  </script>
+</body>
+</html>

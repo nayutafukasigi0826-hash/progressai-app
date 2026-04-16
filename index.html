@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress AI — できるようになった、その喜びをあなたに。</title>
+  <meta name="description" content="Progress AI は、AIを使って人の成長と喜びを最大化するアプリを作っています。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========== Reset & Base ========== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-primary: #0A0A0A;
+      --bg-secondary: #121212;
+      --bg-card: #1A1A1A;
+      --text-primary: #F0F0F0;
+      --text-secondary: #AAAAAA;
+      --gold: #D4A017;
+      --gold-light: #F5C842;
+      --gold-dim: rgba(212, 160, 23, 0.15);
+      --font-jp: 'Noto Sans JP', sans-serif;
+      --font-en: 'Inter', 'Noto Sans JP', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-jp);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* ========== Animations ========== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes glow {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .fade-in-delay-1 { animation-delay: 0.2s; }
+    .fade-in-delay-2 { animation-delay: 0.4s; }
+    .fade-in-delay-3 { animation-delay: 0.6s; }
+
+    /* ========== Header ========== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 16px 32px;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(212, 160, 23, 0.1);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+    }
+
+    .header-logo {
+      height: 36px;
+      width: auto;
+    }
+
+    /* ========== Hero ========== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(212, 160, 23, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(245, 200, 66, 0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(212, 160, 23, 0.05) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    /* Particle dots */
+    .particles {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+    }
+
+    .hero-catchcopy {
+      font-family: var(--font-jp);
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--gold-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subcopy {
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      color: var(--text-secondary);
+      font-weight: 300;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 2;
+    }
+
+    /* Gold line decoration */
+    .gold-line {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 32px auto;
+    }
+
+    /* ========== Apps Section ========== */
+    .section {
+      padding: 100px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: var(--font-en);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+    }
+
+    .section-title span {
+      color: var(--gold);
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 60px;
+    }
+
+    /* App Grid */
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 32px;
+      justify-items: center;
+    }
+
+    .app-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212, 160, 23, 0.12);
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .app-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(212, 160, 23, 0.35);
+      box-shadow: 0 20px 60px rgba(212, 160, 23, 0.08);
+    }
+
+    .app-card-logo {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .app-card-name {
+      font-family: var(--font-en);
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .app-card-name-jp {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .app-card-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .btn-gold {
+      display: inline-block;
+      padding: 12px 32px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #000;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      letter-spacing: 1px;
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(212, 160, 23, 0.3);
+    }
+
+    /* ========== Footer ========== */
+    .footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 1px;
+    }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 600px) {
+      .header { padding: 12px 16px; }
+      .header-logo { height: 28px; }
+      .hero { padding: 100px 16px 60px; }
+      .section { padding: 60px 16px; }
+      .app-grid { grid-template-columns: 1fr; }
+      .app-card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <div class="header-inner">
+      <img src="images/progressai-logo.svg" alt="Progress AI" class="header-logo">
+    </div>
+  </header>
+
+  <!-- ===== Hero Section ===== -->
+  <section class="hero">
+    <div class="particles" id="particles"></div>
+    <div class="hero-content">
+      <h1 class="hero-catchcopy fade-in">できるようになった、<br>その喜びをあなたに。</h1>
+      <div class="gold-line fade-in fade-in-delay-1"></div>
+      <p class="hero-subcopy fade-in fade-in-delay-2">
+        Progress AI は、AIを使って<br class="sp-only">人の成長と喜びを最大化する<br>アプリを作っています。
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== Our Apps ===== -->
+  <section class="section">
+    <h2 class="section-title fade-in">Our <span>Apps</span></h2>
+    <p class="section-subtitle fade-in fade-in-delay-1">私たちが届けるプロダクト</p>
+
+    <div class="app-grid">
+      <div class="app-card fade-in fade-in-delay-2">
+        <img src="images/agesage-gold.png" alt="AgeSage ロゴ" class="app-card-logo">
+        <h3 class="app-card-name">AgeSage</h3>
+        <p class="app-card-name-jp">アゲサゲ</p>
+        <p class="app-card-desc">
+          AIボーカル除去でカラオケ音源を自分で作れる、本格カラオケ練習アプリ。
+        </p>
+        <a href="/agesage/" class="btn-gold">詳しく見る</a>
+      </div>
+      <!-- 将来のアプリカードはここに追加 -->
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="https://x.com/agesage_app" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+        <!-- X (Twitter) icon SVG -->
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+    </div>
+    <p class="footer-copy">&copy; 2025 Progress AI</p>
+  </footer>
+
+  <!-- ===== Particle Animation ===== -->
+  <script>
+    (function() {
+      const container = document.getElementById('particles');
+      const count = 30;
+      for (let i = 0; i < count; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('particle');
+        dot.style.left = Math.random() * 100 + '%';
+        dot.style.top = Math.random() * 100 + '%';
+        dot.style.animationDelay = (Math.random() * 5) + 's';
+        dot.style.animationDuration = (2 + Math.random() * 4) + 's';
+        dot.style.width = dot.style.height = (2 + Math.random() * 3) + 'px';
+        container.appendChild(dot);
+      }
+
+      // Intersection Observer for fade-in
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in').forEach(function(el) {
+        el.style.animationPlayState = 'paused';
+        observer.observe(el);
+      });
+    })();
+  </script>
+</body>
+</html>

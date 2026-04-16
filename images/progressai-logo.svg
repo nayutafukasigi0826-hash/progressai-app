@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 60" width="360" height="60">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5C842;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#D4A017;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5C842;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5C842;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D4A017;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Icon: Abstract "P" with circuit/AI motif -->
+  <g transform="translate(4, 6)">
+    <!-- Outer hexagon shape -->
+    <polygon points="24,0 44,12 44,36 24,48 4,36 4,12" fill="none" stroke="url(#iconGrad)" stroke-width="2"/>
+    <!-- Inner P letterform -->
+    <path d="M16,12 L16,36 M16,12 L32,12 Q38,12 38,18 L38,22 Q38,28 32,28 L16,28" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- AI circuit dots -->
+    <circle cx="38" cy="18" r="2" fill="#F5C842"/>
+    <circle cx="44" cy="24" r="1.5" fill="#D4A017"/>
+    <line x1="38" y1="18" x2="44" y2="24" stroke="#D4A017" stroke-width="1" opacity="0.6"/>
+  </g>
+  <!-- Text: Progress -->
+  <text x="60" y="32" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="300" fill="#FFFFFF" letter-spacing="3">Progress</text>
+  <!-- Text: AI -->
+  <text x="248" y="32" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="700" fill="url(#goldGrad)" letter-spacing="3">AI</text>
+  <!-- Subtle tagline -->
+  <text x="60" y="50" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="9" fill="#888888" letter-spacing="4" text-transform="uppercase">PROGRESS &amp; AI — 進歩と愛</text>
+</svg>

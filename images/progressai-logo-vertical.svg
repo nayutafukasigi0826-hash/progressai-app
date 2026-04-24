@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-13 -13 246 166">
+  <rect x="-13" y="-13" width="246" height="166" fill="#0d0d0d"/>
+  <polygon points="110.0,2.0 138.6,18.5 138.6,51.5 110.0,68.0 81.4,51.5 81.4,18.5" fill="none" stroke="#c9a84c" stroke-width="1.8"/>
+  <polyline points="95.2,53.2 110,16.8 124.8,53.2" fill="none" stroke="#c9a84c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="25" y="100" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" letter-spacing="1" fill="#ffffff">
+    <tspan font-weight="300">Progress</tspan><tspan font-weight="700" fill="#c9a84c"> AI</tspan>
+  </text>
+  <line x1="20" y1="108" x2="200" y2="108" stroke="#c9a84c" stroke-width="0.5" opacity="0.3"/>
+  <text x="110" y="122" text-anchor="middle" font-family="Georgia, serif" font-size="9" font-style="italic" letter-spacing="0.3" fill="rgba(201,168,76,0.85)">In Life, You either succeed or grow.</text>
+  <text x="110" y="136" text-anchor="middle" font-family="Noto Sans CJK JP, sans-serif" font-size="8" letter-spacing="1.2" fill="rgba(255,255,255,0.3)">人生には、成功か成長しかない。</text>
+</svg>

@@ -476,6 +476,25 @@
       font-size: 0.9rem;
     }
 
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(212, 160, 23, 0.4);
+    }
+
     /* ========== Footer ========== */
     .footer {
       border-top: 1px solid var(--border-subtle);
@@ -782,29 +801,19 @@
     <h2 class="contact-title">お問い合わせ</h2>
     <p class="contact-desc">ご意見・ご要望・不具合報告はこちらからどうぞ。</p>
     <div class="contact-form-wrapper">
-      <!-- ====================================================
-           Googleフォームの埋め込み
-           下の iframe の src="YOUR_GOOGLE_FORM_URL" を
-           実際のGoogleフォームURLに差し替えてください。
-           例: src="https://docs.google.com/forms/d/e/XXXX/viewform?embedded=true"
-           ==================================================== -->
-      <div class="contact-form-placeholder">
-        <p>Googleフォームを準備中です。</p>
-        <p style="margin-top: 8px; font-size: 0.8rem; color: #555;">
-          フォームが完成したら、このHTML内の「YOUR_GOOGLE_FORM_URL」を差し替えてください。
-        </p>
-      </div>
-      <!-- フォームURL差し替え後、上の placeholder div を削除し、下の iframe のコメントを外してください -->
-      <!--
-      <iframe src="YOUR_GOOGLE_FORM_URL"
-              width="100%"
-              height="600"
-              frameborder="0"
-              marginheight="0"
-              marginwidth="0">
-        読み込んでいます…
-      </iframe>
-      -->
+      <p style="margin-bottom: 24px; color: var(--text-secondary); font-size: 0.95rem;">
+        以下のボタンからお問い合わせフォームを開いてください。
+      </p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSefCigqofnrWvdy0SyZVNiiWE5loOx7lTma_WEctAwanimpUg/viewform?usp=publish-editor"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="contact-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+        お問い合わせフォームを開く
+      </a>
     </div>
   </section>
 

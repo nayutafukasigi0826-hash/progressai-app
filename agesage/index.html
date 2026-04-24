@@ -476,23 +476,78 @@
       font-size: 0.9rem;
     }
 
+    /* ========== 機能比較表 ========== */
+    .plan-table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .plan-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    .plan-table th,
+    .plan-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .plan-table thead th {
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: var(--bg-card);
+    }
+
+    .plan-table thead th:first-child {
+      text-align: left;
+    }
+
+    .plan-table thead th:not(:first-child) {
+      text-align: center;
+    }
+
+    .plan-table thead th.col-pro {
+      color: #FFB300;
+    }
+
+    .plan-table tbody td:first-child {
+      text-align: left;
+      color: var(--text-primary);
+    }
+
+    .plan-table tbody td:not(:first-child) {
+      text-align: center;
+      color: var(--text-secondary);
+    }
+
+    .plan-table tbody tr.row-diff {
+      background: rgba(255, 179, 0, 0.08);
+    }
+
+    .plan-table .icon-ok  { color: #4CAF50; font-weight: 700; }
+    .plan-table .icon-no  { color: #f44336; }
+    .plan-table .icon-lim { color: var(--text-secondary); font-size: 0.85rem; }
+
     .contact-btn {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 14px 32px;
-      background: var(--accent);
-      color: #000;
+      padding: 12px 32px;
+      background: #FFB300;
+      color: #000000;
       font-weight: 700;
       font-size: 1rem;
-      border-radius: 12px;
+      border-radius: 8px;
       text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: filter 0.2s;
     }
 
     .contact-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(212, 160, 23, 0.4);
+      filter: brightness(0.9);
     }
 
     /* ========== Footer ========== */
@@ -586,53 +641,49 @@
 
     <!-- Tab: このアプリについて -->
     <div class="tab-panel active" id="about" role="tabpanel">
-      <ul class="feature-list">
-        <li class="feature-item">
-          <div class="feature-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-          </div>
-          <div class="feature-text">
-            <h3>AIボーカル除去</h3>
-            <p>お気に入りの曲からボーカルをAIで自動除去。自分だけのカラオケ音源を作成できます。</p>
-          </div>
-        </li>
-        <li class="feature-item">
-          <div class="feature-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
-          </div>
-          <div class="feature-text">
-            <h3>キー変更</h3>
-            <p>半音単位でキーを調整。自分の声域に合わせて、無理なく歌える設定を見つけられます。</p>
-          </div>
-        </li>
-        <li class="feature-item">
-          <div class="feature-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-          </div>
-          <div class="feature-text">
-            <h3>マイキー登録</h3>
-            <p>曲ごとに自分のベストなキーを保存。次に歌うときもワンタッチで最適なキーに。</p>
-          </div>
-        </li>
-        <li class="feature-item">
-          <div class="feature-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/><line x1="12" y1="3" x2="12" y2="21" opacity="0.4"/></svg>
-          </div>
-          <div class="feature-text">
-            <h3>A-Bリピート</h3>
-            <p>苦手なフレーズだけを区間指定して集中練習。効率的にスキルアップできます。</p>
-          </div>
-        </li>
-        <li class="feature-item">
-          <div class="feature-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-          </div>
-          <div class="feature-text">
-            <h3>外部音源対応</h3>
-            <p>YouTube等の外部音源を使った練習にも対応。幅広い楽曲で練習できます。</p>
-          </div>
-        </li>
-      </ul>
+      <div class="plan-table-wrapper">
+        <table class="plan-table">
+          <thead>
+            <tr>
+              <th>機能</th>
+              <th>無料版</th>
+              <th class="col-pro">Pro版（¥370 買い切り）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>プレイリスト管理</td>
+              <td><span class="icon-ok">✓</span></td>
+              <td><span class="icon-ok">✓</span></td>
+            </tr>
+            <tr>
+              <td>動画サイトから曲を追加</td>
+              <td><span class="icon-ok">✓</span></td>
+              <td><span class="icon-ok">✓</span></td>
+            </tr>
+            <tr class="row-diff">
+              <td>キー変更</td>
+              <td><span class="icon-lim">±3まで</span></td>
+              <td><span class="icon-lim">±12フル</span></td>
+            </tr>
+            <tr>
+              <td>MyKey管理（曲ごとのキーを保存）</td>
+              <td><span class="icon-ok">✓</span></td>
+              <td><span class="icon-ok">✓</span></td>
+            </tr>
+            <tr class="row-diff">
+              <td>AIボーカル除去</td>
+              <td><span class="icon-lim">3曲まで（永続）</span></td>
+              <td><span class="icon-lim">無制限</span></td>
+            </tr>
+            <tr class="row-diff">
+              <td>A-Bリピート</td>
+              <td><span class="icon-no">✗</span></td>
+              <td><span class="icon-ok">✓</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Tab: FAQ -->
@@ -645,7 +696,7 @@
           </button>
           <div class="faq-answer">
             <div class="faq-answer-inner">
-              基本機能は無料でご利用いただけます。一部の高度な機能（AIボーカル除去など）はProプランへのアップグレードでご利用可能になります。
+              基本機能は無料でご利用いただけます。一部の機能（A-Bリピートなど）はProプランへのアップグレードでご利用可能になります。
             </div>
           </div>
         </div>
@@ -802,7 +853,7 @@
     <p class="contact-desc">ご意見・ご要望・不具合報告はこちらからどうぞ。</p>
     <div class="contact-form-wrapper">
       <p style="margin-bottom: 24px; color: var(--text-secondary); font-size: 0.95rem;">
-        以下のボタンからお問い合わせフォームを開いてください。
+        ご質問・不具合報告・ご要望はこちらからお送りください。
       </p>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSefCigqofnrWvdy0SyZVNiiWE5loOx7lTma_WEctAwanimpUg/viewform?usp=publish-editor"
          target="_blank"

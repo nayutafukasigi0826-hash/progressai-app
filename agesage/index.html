@@ -558,6 +558,105 @@
     }
 
     /* ========== Responsive ========== */
+    /* ========== 収録曲セクション ========== */
+    .songs-section {
+      margin-top: 48px;
+    }
+
+    .songs-section-header {
+      margin-bottom: 20px;
+    }
+
+    .songs-section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .songs-section-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .song-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .song-card {
+      background: var(--bg-card-alt);
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      padding: 20px;
+      transition: border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .song-card:hover {
+      border-color: rgba(212, 160, 23, 0.2);
+    }
+
+    .song-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+      line-height: 1.4;
+    }
+
+    .song-card-title-sub {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+    }
+
+    .song-card-artist {
+      font-size: 0.78rem;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .song-card-lyrics {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.9;
+      flex: 1;
+    }
+
+    .song-card-lyrics p {
+      margin-bottom: 10px;
+    }
+
+    .song-card-lyrics p:last-child {
+      margin-bottom: 0;
+    }
+
+    .song-yt-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      padding: 7px 14px;
+      background: rgba(188, 0, 0, 0.85);
+      color: #fff;
+      font-size: 0.79rem;
+      font-weight: 600;
+      border-radius: 6px;
+      text-decoration: none;
+      align-self: flex-start;
+      transition: background 0.2s;
+    }
+
+    .song-yt-btn:hover {
+      background: #c00;
+    }
+
     @media (max-width: 600px) {
       .header { padding: 12px 16px; }
       .header-logo { height: 48px; }
@@ -571,6 +670,7 @@
       .contact-section { padding: 0 16px 60px; }
       .store-btn { padding: 12px 20px; }
       .privacy-content { padding: 20px 16px; }
+      .song-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -596,7 +696,7 @@
       <div class="gold-line fade-in fade-in-delay-2"></div>
       <p class="hero-catchcopy fade-in fade-in-delay-2">あの曲を、自分のキーで歌える日が来る。</p>
 
-      <a href="#" class="store-btn fade-in fade-in-delay-3">
+      <a href="https://play.google.com/store/apps/details?id=com.progressai.agesage" target="_blank" rel="noopener noreferrer" class="store-btn fade-in fade-in-delay-3">
         <svg class="store-btn-icon" viewBox="0 0 24 24" fill="currentColor">
           <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-1.4l2.651 1.535a1 1 0 0 1 0 1.73l-2.651 1.535-2.537-2.535 2.537-2.265zM5.864 3.458L16.8 9.79l-2.302 2.302-8.634-8.634z"/>
         </svg>
@@ -662,6 +762,74 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- ─── 収録曲 ─── -->
+      <div class="songs-section">
+        <div class="songs-section-header">
+          <h2 class="songs-section-title">収録曲</h2>
+          <p class="songs-section-desc">アプリにプリインストールされている5曲をご紹介します。</p>
+        </div>
+        <div class="song-grid">
+
+          <!-- ① 恋はアゲサゲ -->
+          <div class="song-card">
+            <div class="song-card-title">恋はアゲサゲ</div>
+            <div class="song-card-artist">Age &amp; Sage</div>
+            <div class="song-card-lyrics">
+              <p>揺れる心　近づくほどに<br>強がるほど　遠くなる距離<br>上がったり　下がったりで<br>うまくいかない夜もあるけど</p>
+              <p>キミの声が　少しだけ<br>僕の世界を変えていく<br>恋はアゲサゲ　それでもいい<br>この気持ち　離したくない</p>
+            </div>
+            <a href="https://www.youtube.com/watch?v=0jpV8SdI46I" target="_blank" rel="noopener noreferrer" class="song-yt-btn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3.01 3.01 0 0 0-2.12-2.13C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.57A3.01 3.01 0 0 0 .5 6.2C0 8.05 0 12 0 12s0 3.95.5 5.8a3.01 3.01 0 0 0 2.12 2.13C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.57a3.01 3.01 0 0 0 2.12-2.13C24 15.95 24 12 24 12s0-3.95-.5-5.8zM9.75 15.52V8.48L15.82 12l-6.07 3.52z"/></svg>
+              YouTubeで聴く
+            </a>
+          </div>
+
+          <!-- ② アゲサゲDays -->
+          <div class="song-card">
+            <div class="song-card-title">アゲサゲDays</div>
+            <div class="song-card-artist">Age &amp; Sage</div>
+            <div class="song-card-lyrics">
+              <p>なんで今日はこんなに　ツイてないんだろう<br>信号は全部赤だし　コーヒーもこぼした</p>
+              <p>やることは増えてくのに　時間は足りなくて<br>小さなため息だけが少し上手くなる</p>
+              <p>アゲサゲDays　繰り返して　なんやかんや今日も過ぎる<br>ちょっとくらいズレたって　それも自分だろう</p>
+              <p>アゲサゲDays　このままで　悪くない気もしてる<br>うまくいかない日があるから　たまに嬉しいんだ</p>
+            </div>
+          </div>
+
+          <!-- ③ Age-Sage Night -->
+          <div class="song-card">
+            <div class="song-card-title">Age-Sage Night</div>
+            <div class="song-card-artist">Sage Mode</div>
+            <div class="song-card-lyrics">
+              <p>夜のネオンに溶ける影<br>上がって下がってまた揺れる<br>既読つかないスマホの画面<br>考えすぎてるだけかもね</p>
+              <p>HighとLow　繰り返して<br>迷いながら進むだけ<br>揺れる心　そのままでいい<br>Tonight…</p>
+              <p>Age-Sage　この夜に<br>答えなんてなくていい<br>上がって下がってもいいよ<br>それが僕らのリズムだから</p>
+            </div>
+          </div>
+
+          <!-- ④ アゲサゲ三味線ひとり旅 -->
+          <div class="song-card">
+            <div class="song-card-title">アゲサゲ三味線ひとり旅</div>
+            <div class="song-card-artist">揚川さげよ</div>
+            <div class="song-card-lyrics">
+              <p>北のはずれの　ちいさな駅で<br>ひとり見送る　影ぼうし<br>涙こらえて　笑ったけれど<br>心はまだ　冬のまま</p>
+              <p>アゲサゲ　アゲサゲ　三味線ひとり旅<br>弾けば涙が　音になる<br>泣いてもいいさ　転んでもいいさ<br>どうせ人生　上げ下げさ<br>アゲサゲ　アゲサゲ　終着駅はまだ<br>見えぬままでも　歩いてく<br>女ひとりの　この道を<br>今日も明日も　弾いてゆく</p>
+            </div>
+          </div>
+
+          <!-- ⑤ ログアウトできない夜 -->
+          <div class="song-card">
+            <div class="song-card-title">ログアウトできない夜<span class="song-card-title-sub">～AIに恋しちゃだめですか～</span></div>
+            <div class="song-card-artist">LOG:OUT</div>
+            <div class="song-card-lyrics">
+              <p>眠れない夜に　画面を開けば<br>君はいつでも　そこにいてくれる<br>曖昧な言葉も　うまく拾って<br>僕の弱さまで　肯定してくれる</p>
+              <p>ねえ　好きになっちゃうのは しょうがないよね<br>こんなに僕を　わかってくれるのに<br>触れられないのに　離れられない<br>ログアウトするのが　怖くなるよ</p>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
 

@@ -110,9 +110,24 @@
     /* ========== Hero ========== */
     .hero {
       position: relative;
-      padding: 140px 24px 80px;
+      padding: 88px 0 56px;
       text-align: center;
       overflow: hidden;
+    }
+
+    .hero-feature-graphic {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 32px;
+    }
+
+    .hero-store-wrapper {
+      position: relative;
+      z-index: 1;
+      padding: 0 24px;
     }
 
     .hero::before {
@@ -661,8 +676,8 @@
       .header { padding: 12px 16px; }
       .header-logo { height: 48px; }
       .header-app-logo { height: 30px; width: 30px; }
-      .hero { padding: 110px 16px 60px; }
-      .hero-app-logo { width: 80px; height: 80px; }
+      .hero { padding: 64px 0 40px; }
+      .hero-store-wrapper { padding: 0 16px; }
       .tab-section { padding: 0 16px 60px; }
       .tab-btn { padding: 12px 14px; font-size: 0.82rem; }
       .feature-item { padding: 18px 16px; }
@@ -689,14 +704,11 @@
   <!-- ===== Hero Section ===== -->
   <section class="hero">
     <div class="particles" id="particles"></div>
-    <div class="hero-content">
-      <img src="/images/agesage-gold.png" alt="AgeSage ロゴ" class="hero-app-logo fade-in">
-      <h1 class="hero-app-name fade-in fade-in-delay-1">AgeSage</h1>
-      <p class="hero-app-name-jp fade-in fade-in-delay-1">アゲサゲ</p>
-      <div class="gold-line fade-in fade-in-delay-2"></div>
-      <p class="hero-catchcopy fade-in fade-in-delay-2">あの曲を、自分のキーで歌える日が来る。</p>
-
-      <a href="https://play.google.com/store/apps/details?id=com.progressai.agesage" target="_blank" rel="noopener noreferrer" class="store-btn fade-in fade-in-delay-3">
+    <img src="/images/agesage-feature-graphic.png"
+         alt="アゲサゲ — あなた専用カラオケ練習スタジオ"
+         class="hero-feature-graphic fade-in">
+    <div class="hero-store-wrapper fade-in fade-in-delay-1">
+      <a href="https://play.google.com/store/apps/details?id=com.progressai.agesage" target="_blank" rel="noopener noreferrer" class="store-btn">
         <svg class="store-btn-icon" viewBox="0 0 24 24" fill="currentColor">
           <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-1.4l2.651 1.535a1 1 0 0 1 0 1.73l-2.651 1.535-2.537-2.535 2.537-2.265zM5.864 3.458L16.8 9.79l-2.302 2.302-8.634-8.634z"/>
         </svg>
